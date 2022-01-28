@@ -34,13 +34,13 @@ for (marker_corner, marker_id) in zip(corners, ids):
         center_x = int((top_left[0] + bottom_right[0]) / 2.0)
         center_y = int((top_left[1] + bottom_right[1]) / 2.0)
         cv2.circle(frame, (center_x, center_y), 4, (0, 0, 255), -1)
-         
+        text = "id = "
         # Draw the ArUco marker ID on the video frame
         # The ID is always located at the top_left of the ArUco marker
-        cv2.putText(frame, str(marker_id), 
+        cv2.putText(frame,text + str(marker_id), 
           (top_left[0], top_left[1] - 15),
           cv2.FONT_HERSHEY_SIMPLEX,
-          0.5, (0, 255, 0), 2)
+          0.5, (255, 0, 0), 2)
   
 # Display the resulting frame
 cv2.imshow('frame',frame)
