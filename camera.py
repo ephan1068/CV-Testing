@@ -8,6 +8,7 @@ frame= cv2.imread("photos/arena_marker.jpg", cv2.IMREAD_COLOR) #read in rame
 #loading in the aruco dictionary
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_1000)
 arucoParams = cv2.aruco.DetectorParameters_create()
+cv2.aruco.draw
 
 #detects the markers
 (corners, ids, rejected) = cv2.aruco.detectMarkers(frame, arucoDict,
