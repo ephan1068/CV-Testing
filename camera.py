@@ -1,7 +1,7 @@
 # Python code to read image
 import cv2
 import numpy as np 
-import ArucoMarker
+import aruco_marker
 import arena
 # To read image from disk, we use
 # cv2.imread function, in below method,
@@ -16,7 +16,7 @@ def capture():
 
     marker_list = []
     for x in range(len(ids)):
-        p1 = ArucoMarker.Marker(ids[x],corners[x][0][0],corners[x][0][1],corners[x][0][2],corners[x][0][3])
+        p1 = aruco_marker.Marker(ids[x],corners[x][0][0],corners[x][0][1],corners[x][0][2],corners[x][0][3])
         marker_list.append(p1)
     
     frame = arena.process_Markers(frame,marker_list)

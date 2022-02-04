@@ -1,4 +1,5 @@
 import math
+import processed_marker
 import cv2
 origin = [0,0]
 axis = [4,4]
@@ -6,9 +7,10 @@ mPpm = 1
 width = 4
 height = 2
 pixels_Meter = 1.0
-theta = 3.14
-
+theta = 3.1415
+m_list = []
 def process_Markers(frame,marker_list):
+    
     for x in marker_list:
         if x.id == 0:
             origin = x.corner1
@@ -21,7 +23,8 @@ def process_Markers(frame,marker_list):
     theta = -math.atan2(axis[1] - origin[1], axis[0] - origin[0])
     for x in marker_list:
         if x.id > 1:
-            translate(x)
+            n_marker = translate(x)
+            m_list.append(n_marker)
             frame = cv2.arrowedLine(frame,(int(x.corner1[0]), int(x.corner1[1])),(int(x.corner2[0]), int(x.corner2[1])),(0, 255, 0),3)
     return frame
     
@@ -49,7 +52,7 @@ def translate(marker):
     # //float markerSide = sqrt((m[1].x - m[0].x)*(m[1].x - m[0].x) + (m[1].y - m[0].y)*(m[1].y - m[0].y));
     markerSide = math.sqrt((marker.corner2[0] - marker.corner1[0])*(marker.corner2[0] - marker.corner1[0]) + 
     (marker.corner2[1] - marker.corner1[1])*(marker.corner2[1] - marker.corner1[1]))
-    PI = 3.14
+    PI = 3.1415
     if (math.cos(mtheta) >= 0) :
          A += math.sqrt(2) * markerSide / 2 * math.cos(PI/4 - mtheta)
          B -= math.sqrt(2) * markerSide / 2 * math.sin(PI/4 - mtheta)
@@ -64,7 +67,7 @@ def translate(marker):
 
     # mArenaMutex.unlock();
 
-    # Marker marker = Marker(m.id, x, y, theta);
+    n_marker = processed_marker.processed_Marker(marker.id, x, y, mtheta)
 
 
-    # return marker;
+    return n_marker
