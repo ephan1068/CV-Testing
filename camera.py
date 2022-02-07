@@ -7,7 +7,7 @@ import arena
 # cv2.imread function, in below method,
 
 def capture():
-    frame= cv2.imread("photos/arena_marker.jpg", cv2.IMREAD_COLOR)
+    frame= cv2.imread("photos/harena.jpg", cv2.IMREAD_COLOR)
 
     arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_1000)
     arucoParams = cv2.aruco.DetectorParameters_create()

@@ -4,7 +4,7 @@ import numpy as np
 import aruco_marker
 # To read image from disk, we use
 # cv2.imread function, in below method,
-frame= cv2.imread("photos/arena_marker.jpg", cv2.IMREAD_COLOR)
+frame= cv2.imread("photos/H_arena.jpg", cv2.IMREAD_COLOR)
 
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_1000)
 arucoParams = cv2.aruco.DetectorParameters_create()
@@ -12,6 +12,7 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 frame = cv2.aruco.drawDetectedMarkers(frame,corners,ids)
 
 marker_list = []
+print(ids)
 for x in range(len(ids)):
     curr_Marker = aruco_marker.Marker(ids[x],corners[x][0][0],corners[x][0][1],corners[x][0][2],corners[x][0][3])
     marker_list.append(curr_Marker)
