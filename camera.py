@@ -18,8 +18,8 @@ def capture():
     for x in range(len(ids)):
         p1 = aruco_marker.Marker(ids[x],corners[x][0][0],corners[x][0][1],corners[x][0][2],corners[x][0][3])
         marker_list.append(p1)
-    
-    frame = arena.process_Markers(frame,marker_list)
+    H = arena.getHomographyMatrix(frame,marker_list)
+    frame = arena.processMarkers(frame,marker_list,H)
     # Display the resulting frame
     cv2.imshow('frame',frame)
     cv2.waitKey(0)
