@@ -8,7 +8,7 @@ height = 2.0
 m_list = []
 def getHomographyMatrix(frame,marker_list):
     for x in marker_list:
-        if x.id == 0:
+        if x.id == 0:  #finding all the corners of the arena
             pt00 = x.corner1
         elif x.id == 1:
             pt40 = x.corner1
@@ -17,21 +17,21 @@ def getHomographyMatrix(frame,marker_list):
         elif x.id == 3:
             pt42 = x.corner1
         
-    
-    src_pts = np.float32([pt00, pt40, pt02, pt42])
-    dst_pts = np.float32([[0.0, 0.0], [width, 0.0], [0.0, height], [width, height]])
+    src_pts = np.float32([pt00, pt40, pt02, pt42]) #pixel coordinates of the markers
+    dst_pts = np.float32([[0.0, 0.0], [width, 0.0], [0.0, height], [width, height]]) #arena coordinates of markers
     H = cv2.getPerspectiveTransform(src_pts, dst_pts)
-    print(H.shape)
+    #print(H.shape)
     return H
 
 
 def processMarkers(frame, marker_list, H):
     for x in marker_list:
         if x.id > 3:
-            # n_marker = translate(x, H)
-            print(x.id)
-            translate(x, H)
-            # m_list.append(n_marker)
+            n_marker = translate(x, H)
+            #print(x.id)
+            m_list.append(n_marker)
+            
+            #Add a green arrowed line
             frame = cv2.arrowedLine(frame,(int(x.corner1[0]), int(x.corner1[1])),(int(x.corner2[0]), 
             int(x.corner2[1])),(0, 255, 0),2,tipLength= .4)
     return frame
@@ -45,12 +45,13 @@ def translate(marker, H):
 
     # Use homography transformation matrix to convert marker coords in px to meters
     marker_coords_m = cv2.perspectiveTransform(marker_coords_px, H)[0]
-    print(marker_coords_m)
+    #print(marker_coords_m)
+
     # Find theta of the marker
     corner1_coords_m = cv2.perspectiveTransform(np.float32(np.array([[marker.corner1]])), H)
     corner2_coords_m = cv2.perspectiveTransform(np.float32(np.array([[marker.corner2]])), H)
     marker_theta = math.atan2(corner2_coords_m[0, 0, 1] - corner1_coords_m[0, 0, 1], corner2_coords_m[0, 0, 0] - corner1_coords_m[0, 0, 0])
-    print(marker_theta)
+    #print(marker_theta)
     n_marker = processed_marker.processed_Marker(marker.id, marker_coords_m[0,0], marker_coords_m[0,1], marker_theta)
 
     return n_marker
